@@ -1,7 +1,8 @@
 import isaacgym
 from datetime import datetime
 
-from extern.rsl_rl.rsl_rl.runners import OnPolicyRunner
+#from extern.rsl_rl.rsl_rl.runners import OnPolicyRunner
+from rsl_rl.runners import OnPolicyRunner
 
 import os
 import hydra

@@ -18,6 +18,7 @@ class Parameters:
     policy_print_time = False
 
     bridge_MPC_to_RL = False
+    #bridge_MPC_to_RL = True
 
     flat_ground = False
 

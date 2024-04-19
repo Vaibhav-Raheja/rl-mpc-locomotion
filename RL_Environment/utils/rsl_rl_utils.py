@@ -1,5 +1,5 @@
 import os
-from isaacgym import gymutil
+#from isaacgym import gymutil
 
 
 def update_cfg_from_args(cfg_train, args):

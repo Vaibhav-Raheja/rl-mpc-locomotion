@@ -1,12 +1,13 @@
 import math
+from isaacgym import gymapi
 from MPC_Controller.Parameters import Parameters
 from MPC_Controller.robot_runner.RobotRunnerFSM import RobotRunnerFSM
 from MPC_Controller.robot_runner.RobotRunnerMin import RobotRunnerMin
 from MPC_Controller.robot_runner.RobotRunnerPolicy import RobotRunnerPolicy
 from MPC_Controller.common.Quadruped import RobotType
 from MPC_Controller.utils import DTYPE, ControllerType
+from MPC_Controller.utils import GaitType, FSM_StateName
 from RL_Environment import gamepad_reader
-from isaacgym import gymapi
 from RL_Environment.sim_utils import *
 from argparse import ArgumentParser
 
@@ -92,6 +93,12 @@ def main():
             if not e_stop:
                 commands = np.array([lin_speed[0], lin_speed[1], ang_speed], dtype=DTYPE)
 
+
+        #Parameters.cmpc_gait = GaitType.WALK
+        Parameters.cmpc_gait = GaitType.TROT
+        Parameters.control_mode = FSM_StateName.LOCOMOTION
+        commands = np.array([0.6, 0, 0], dtype=DTYPE)
+
         # run controllers
         for idx, (env, actor, controller) in enumerate(zip(envs, actors, controllers)):
             dof_states = gym.get_actor_dof_states(env, actor, gymapi.STATE_ALL)
@@ -101,7 +108,8 @@ def main():
             gym.apply_actor_dof_efforts(env, actor, legTorques / (Parameters.controller_dt*100))
 
         if Parameters.locomotionUnsafe:
-            gamepad.fake_event(ev_type='Key',code='BTN_TR',value=0)
+            if use_gamepad:
+                gamepad.fake_event(ev_type='Key',code='BTN_TR',value=0)
             Parameters.locomotionUnsafe = False
 
         if debug_vis:
