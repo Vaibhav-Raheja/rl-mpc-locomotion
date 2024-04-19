@@ -18,7 +18,7 @@ from MPC_Controller.common.StateEstimator import StateEstimate
 
 from RL_Environment.utils.utils import set_seed
 from RL_Environment.utils.rsl_rl_utils import update_cfg_from_args, class_to_dict, get_load_path
-#from RL_Environment.tasks.legged_config_ppo import LeggedCfgPPO
+from RL_Environment.tasks.legged_config_ppo import LeggedCfgPPO
 
 from extern.rsl_rl.rsl_rl.modules import ActorCritic
 
@@ -61,10 +61,10 @@ class WeightPolicy:
         if cfg.checkpoint:
             cfg.checkpoint = to_absolute_path(cfg.checkpoint)
 
-        #train_cfg = LeggedCfgPPO()
-        #train_cfg = update_cfg_from_args(train_cfg, cfg)
-        #train_cfg_dict = class_to_dict(train_cfg)
-        #policy_cfg = train_cfg_dict["policy"]
+        train_cfg = LeggedCfgPPO()
+        train_cfg = update_cfg_from_args(train_cfg, cfg)
+        train_cfg_dict = class_to_dict(train_cfg)
+        policy_cfg = train_cfg_dict["policy"]
         self.actor_critic = ActorCritic(self.num_obs,
                                         self.num_obs,
                                         self.num_actions,
