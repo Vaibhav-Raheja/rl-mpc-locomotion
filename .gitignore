@@ -144,3 +144,5 @@ reference/
 logs/
 
 *.pkl
+
+*.swp
